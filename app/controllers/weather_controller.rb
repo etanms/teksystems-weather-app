@@ -2,10 +2,12 @@
 
 class WeatherController < ApplicationController
   CACHE_DURATION = 30.minutes
+  private_constant(:CACHE_DURATION)
   
   def forecast
     # Extract zip code
-    zip = address_params[:zip]
+    validate_zip(params[:address][:zip])
+    zip = address_params[:zip].to_i
     
     # Attempt to retrieve the forecast from the cache, or retrieve it from API if not recently cached
     record = Rails.cache.fetch({ type: :weather_forecast, zip: zip }) || get_forecast(zip)
@@ -82,5 +84,19 @@ class WeatherController < ApplicationController
     
     # Return the forecast data
     record
+  end
+  
+  def validate_zip(zip)
+    # Raise error if nil
+    raise ArgumentError, "address.zip is required" if zip.nil?
+    
+    # Allow integers
+    return if zip.is_a?(Integer)
+    
+    # Allow strings that can be safely converted to integer
+    return if zip.is_a?(String) && zip.strip.match?(/\A\d+\z/)
+    
+    # Otherwise, raise an exception
+    raise ArgumentError, "address.zip must be an integer or numeric string."
   end
 end

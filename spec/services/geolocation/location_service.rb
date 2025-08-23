@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Geolocation::LocationService do
   describe ".get_lat_lon" do
-    let(:zip_code) { "95148" }
+    let(:zip_code) { 95148 }
     
     # Mock response from Nominatim
     let(:nominatim_response) do
