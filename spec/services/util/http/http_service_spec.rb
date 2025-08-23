@@ -10,7 +10,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
     allow(Rails.logger).to receive(:info)
   end
 
-  describe '.method_supported?' do
+  describe '#method_supported?' do
     context 'when the method is supported' do
       # List through valid methods and check that they pass method_supported?
       described_class::RequestMethods.constants.each do |const|
@@ -29,7 +29,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
     end
   end
 
-  describe '.log_request' do
+  describe '#log_request' do
     # Mock request arguments
     let(:url) { "https://api.example.com" }
     let(:method) { described_class::RequestMethods::POST }
@@ -113,7 +113,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
     end
   end
 
-  describe '.log_response' do
+  describe '#log_response' do
     # Mock time and now for consistency
     let(:time) { DateTime.new(2024, 10, 15, 12, 30) }
     let(:now) { DateTime.new(2024, 10, 15, 12, 31) }
@@ -187,7 +187,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
     end
   end
 
-  describe '.send_request' do
+  describe '#send_request' do
     # Mock arguments
     let(:url) { 'http://example.com/api' }
     let(:bad_url) { 'http://some_bad_url.net]]' }
