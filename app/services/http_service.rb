@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Service used to make HTTP requests using the HTTParty library.
 class HttpService
   require 'httparty'
