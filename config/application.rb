@@ -12,9 +12,8 @@ module TeksystemsWeatherApp
     config.load_defaults 8.0
     
     # Set autoload paths
-    config.autoload_paths += Dir[Rails.root.join("app", "{**/*/}")]
-    config.autoload_paths += Dir[Rails.root.join("lib", "{**/*/}")]
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths << Rails.root.join('app')
+    config.autoload_paths << Rails.root.join('lib')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
