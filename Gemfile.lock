@@ -179,7 +179,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (4.3.12)
+    puma (6.6.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.0)
@@ -339,7 +339,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.2)
   mutex_m
-  puma (~> 4.1)
+  puma (~> 6.4)
   rails (~> 8.0, >= 8.0)
   redis (~> 4.0)
   rspec-rails (~> 4.1)
