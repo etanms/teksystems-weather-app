@@ -12,16 +12,16 @@ module Geolocation
       GET_LAT_LON = 'get_lat_long'
     end
     
-    private
-    
-    def self.get_lat_long(args)
-      {
-        query: {
-          q:      "#{args[:zip]}, USA",
-          format: :json
-        },
-        path:  '/search'
-      }
+    class << self
+      def get_lat_long(args)
+        {
+          query: {
+            q:      "#{args[:zip]}, USA",
+            format: :json
+          },
+          path:  '/search'
+        }
+      end
     end
   end
 end

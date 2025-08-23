@@ -13,9 +13,10 @@ module Util
       {
         method:  args[:method] || Util::Http::HttpService::RequestMethods::GET,
         options: {
-          body:    args[:body].present? ? JSON.generate(args[:body]) : nil,
-          headers: JSON.parse((self::HEADERS || {}).to_json),
-          query:   args[:query]
+          body:             args[:body].present? ? JSON.generate(args[:body]) : nil,
+          follow_redirects: true,
+          headers:          JSON.parse((self::HEADERS || {}).to_json),
+          query:            args[:query]
         },
         url:     self::BASE_URL + args[:path]
       }
