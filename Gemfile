@@ -10,13 +10,21 @@ gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3', '~> 2.1'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+
+# Use Httparty library for HTTP calls
+gem 'httparty', "~> 0.20"
+
+# Library used for colored text within log statements
+gem 'colorize', "~> 0.8"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -31,6 +39,7 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem "mutex_m" # Dependency for Spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

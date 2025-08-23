@@ -33,9 +33,11 @@
     <orderEntry type="library" scope="PROVIDED" name="byebug (v12.0.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.40.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v4.1.0, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="colorize (v0.8.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.3.5, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.5.3, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.5, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.4.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.6.2, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="drb (v2.2.3, RVM: ruby-3.4.4) [gem]" level="application" />
@@ -43,6 +45,7 @@
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.2, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="httparty (v0.23.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.7, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.8.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.15.2, RVM: ruby-3.4.4) [gem]" level="application" />
@@ -56,6 +59,8 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.25.5, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.0, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_xml (v0.7.2, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mutex_m (v0.3.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.5.9, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-pop (v0.1.2, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-protocol (v0.2.2, RVM: ruby-3.4.4) [gem]" level="application" />
@@ -96,10 +101,12 @@
     <orderEntry type="library" scope="PROVIDED" name="sassc-rails (v2.1.2, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.1.0, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="semantic_range (v3.1.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v2.1.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring-watcher-listen (v2.0.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.2.2, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.5.2, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.7.3, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.1.7, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.4.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tilt (v2.6.1, RVM: ruby-3.4.4) [gem]" level="application" />
@@ -111,7 +118,7 @@
     <orderEntry type="library" scope="PROVIDED" name="useragent (v0.16.11, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v4.2.1, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webdrivers (v5.3.1, RVM: ruby-3.4.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="webpacker (v4.3.0, RVM: ruby-3.4.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="webpacker (v5.4.4, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.8.0, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.5, RVM: ruby-3.4.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, RVM: ruby-3.4.4) [gem]" level="application" />
