@@ -8,7 +8,10 @@ class WeatherController < ApplicationController
     zip = address_params[:zip]
     
     # Attempt to retrieve the forecast from the cache, or retrieve it from API if not recently cached
-    @forecast = Rails.cache.fetch({ type: :weather_forecast, zip: zip }) || get_forecast(zip)
+    record = Rails.cache.fetch({ type: :weather_forecast, zip: zip }) || get_forecast(zip)
+    
+    @cached_at = record[:cached_at]
+    @forecast  = record[:forecast]
     
     # Sample Forecast:
     #
@@ -67,14 +70,17 @@ class WeatherController < ApplicationController
     # Use the latitude and longitude to retrieve data about the weather for that location
     forecast = Weather::WeatherService.get_forecast(lat_lon)
     
+    # Format the data with the current time so the time it was cached at can be referenced in the future
+    record = { cached_at: DateTime.now, forecast: forecast }
+    
     # Cache the forecast within Redis
     Rails.cache.write(
       { type: :weather_forecast, zip: zip },
-      forecast,
+      record,
       expires_in: CACHE_DURATION
     )
     
     # Return the forecast data
-    forecast
+    record
   end
 end
