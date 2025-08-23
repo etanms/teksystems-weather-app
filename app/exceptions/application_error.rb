@@ -7,7 +7,10 @@ class ApplicationError < StandardError
   DEFAULT_MESSAGE = "An unexpected error occurred. Please try again later."
   private_constant(:DEFAULT_STATUS, :DEFAULT_MESSAGE)
   
-  def initialize(message: self.class::MESSAGE || DEFAULT_MESSAGE, status: self.class::STATUS || DEFAULT_STATUS)
+  def initialize(
+                  message: (defined?(self.class::MESSAGE) ? self.class::MESSAGE : DEFAULT_MESSAGE),
+                  status:  (defined?(self.class::STATUS)  ? self.class::STATUS  : DEFAULT_STATUS)
+                )
     # Set internal variables
     @message = message
     @status  = status
