@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module TeksystemsWeatherApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 8.0
     
     # Set autoload paths
     config.autoload_paths += Dir[Rails.root.join("app", "{**/*/}")]
