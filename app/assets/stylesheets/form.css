@@ -1,0 +1,53 @@
+/* Container for the form */
+form {
+    max-width: 400px;
+    margin: 0 auto; /* Center form */
+    font-family: Arial, sans-serif;
+}
+
+/* Group each label + input together */
+form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem; /* Space between groups */
+}
+
+/* Label styling */
+form label {
+    margin-bottom: 0.25rem; /* Small space between label and input */
+    font-weight: bold;
+}
+
+/* Input styling */
+form input[type="text"],
+form input[type="number"],
+form input[type="email"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 25rem;
+}
+
+/* Buttons */
+form input[type="submit"],
+form button[type="reset"] {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+form input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    width: 25rem;
+}
+
+form button[type="reset"] {
+    background-color: #aeaeae;
+    color: #333;
+    width: 25rem;
+}

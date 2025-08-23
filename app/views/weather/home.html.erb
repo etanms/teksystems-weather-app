@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Get Weather Forecast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/form.css">
+</head>
+<body>
+<main class="card" role="main">
+  <h1>Weather Forecast by Address</h1>
+
+  <%= form_with url: weather_forecast_path, method: :get, local: true do |f| %>
+    <div>
+      <%= f.label :street, "Street" %><br>
+      <%= f.text_field :street, name: "address[street]" %>
+    </div>
+
+    <div>
+      <%= f.label :city, "City" %><br>
+      <%= f.text_field :city, name: "address[city]" %>
+    </div>
+
+    <div>
+      <%= f.label :state, "State" %><br>
+      <%= f.text_field :state, name: "address[state]" %>
+    </div>
+
+    <div>
+      <%= f.label :zip, "Zip Code" %><br>
+      <%= f.text_field :zip,
+                       name: "address[zip]",
+                       required: true,
+                       pattern: "\\d{5}(-\\d{4})?",
+                       title: "Please enter a valid 5-digit or 9-digit ZIP code" %>
+    </div>
+
+    <div>
+      <%= f.submit "Get Forecast" %>
+      <%= f.button "Reset", type: "reset" %>
+    </div>
+  <% end %>
+</main>
+</body>
+</html>

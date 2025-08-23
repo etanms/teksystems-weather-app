@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <%= stylesheet_link_tag 'forecast', media: 'all' %>
+</head>
+<body>
+<header>
+  <h1>Weather Forecast</h1>
+</header>
+
+<main>
+  <% if @forecast.present? %>
+    <div class="container">
+      <% @forecast.each do |period| %>
+        <div class="card">
+          <h2><%= period["name"] %></h2>
+          <p><strong>Time:</strong>
+            <%= period["startTime"].to_time.strftime("%b %d, %I:%M %p") %> -
+            <%= period["endTime"].to_time.strftime("%I:%M %p") %>
+          </p>
+
+          <div class="main">
+            <div class="icon">
+              <img src="<%= period["icon"] %>" alt="<%= period["shortForecast"] %> icon" />
+            </div>
+            <div class="details">
+              <p><strong>Temperature:</strong> <%= period["temperature"] %>°<%= period["temperatureUnit"] %></p>
+              <p><strong>Precipitation:</strong> <%= period["probabilityOfPrecipitation"]["value"] %> %</p>
+              <p><strong>Wind:</strong> <%= period["windSpeed"] %> <%= period["windDirection"] %></p>
+              <p><strong>Short Forecast:</strong> <%= period["shortForecast"] %></p>
+              <p><strong>Details:</strong> <%= period["detailedForecast"] %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>No forecast data available.</p>
+  <% end %>
+</main>
+</body>
+</html>
