@@ -18,7 +18,7 @@ gem 'jbuilder', '~> 2.7'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 2.1'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
 
 # Use Httparty library for HTTP calls
 gem 'httparty', "~> 0.20"

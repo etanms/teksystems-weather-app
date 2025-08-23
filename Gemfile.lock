@@ -228,7 +228,10 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    redis (4.8.1)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.25.2)
+      connection_pool
     regexp_parser (2.11.2)
     reline (0.6.2)
       io-console (~> 0.5)
@@ -341,7 +344,7 @@ DEPENDENCIES
   mutex_m
   puma (~> 6.4)
   rails (~> 8.0, >= 8.0)
-  redis (~> 4.0)
+  redis (~> 5.0)
   rspec-rails (~> 4.1)
   sass-rails (>= 6)
   selenium-webdriver
