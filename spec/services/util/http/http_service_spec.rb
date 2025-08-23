@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join('app/services/http_service')
+require Rails.root.join('app/services/util/http/http_service')
 
 
-RSpec.describe HttpService, type: :service do
+RSpec.describe Util::Http::HttpService, type: :service do
   before do
     # Allow logger to receive logs
     allow(Rails.logger).to receive(:info)
@@ -13,8 +13,8 @@ RSpec.describe HttpService, type: :service do
   describe '.method_supported?' do
     context 'when the method is supported' do
       # List through valid methods and check that they pass method_supported?
-      HttpService::RequestMethods.constants.each do |const|
-        method = HttpService::RequestMethods.const_get(const)
+      Util::Http::HttpService::RequestMethods.constants.each do |const|
+        method = Util::Http::HttpService::RequestMethods.const_get(const)
         it "returns true for #{method.upcase} requests" do
           expect(described_class.send(:method_supported?, method)).to be_truthy
         end
@@ -32,7 +32,7 @@ RSpec.describe HttpService, type: :service do
   describe '.log_request' do
     # Mock request arguments
     let(:url) { "https://api.example.com" }
-    let(:method) { HttpService::RequestMethods::POST }
+    let(:method) { Util::Http::HttpService::RequestMethods::POST }
     let(:time) { DateTime.new(2024, 10, 15, 12, 30) }
 
     context 'when all parameters are provided' do
@@ -124,7 +124,7 @@ RSpec.describe HttpService, type: :service do
         'Request',
         uri: 'http://test.com',
         last_uri: 'http://test.com/last',
-        http_method: HttpService::RequestMethods::GET
+        http_method: Util::Http::HttpService::RequestMethods::GET
       )
     end
 
@@ -187,11 +187,11 @@ RSpec.describe HttpService, type: :service do
     end
   end
 
-  describe '.make_request' do
+  describe '.send_request' do
     # Mock arguments
     let(:url) { 'http://example.com/api' }
     let(:bad_url) { 'http://some_bad_url.net]]' }
-    let(:method) { HttpService::RequestMethods::GET }
+    let(:method) { Util::Http::HttpService::RequestMethods::GET }
     let(:options) { { headers: { 'Content-Type' => 'application/json' } } }
     let(:mock_response) { double('Response', code: 200, message: 'OK', body: '{"data": "value"}') }
 
@@ -210,7 +210,7 @@ RSpec.describe HttpService, type: :service do
       end
       it 'will return the response' do
         # Check that it returns the correct response
-        response = described_class.send(:make_request, url: url, method: method, options: options)
+        response = described_class.send(:send_request, url: url, method: method, options: options)
         expect(response.code).to eq(mock_response.code)
         expect(response.message).to eq(mock_response.message)
         expect(response.body).to eq(mock_response.body)
@@ -220,7 +220,7 @@ RSpec.describe HttpService, type: :service do
         it 'will error with invalid URI error message' do
           # Check that it properly handles the case where the url is wrong
           expect do
-            described_class.send(:make_request, url: bad_url, method: method, options: options)
+            described_class.send(:send_request, url: bad_url, method: method, options: options)
           end.to raise_error(URI::InvalidURIError)
         end
       end
@@ -234,8 +234,8 @@ RSpec.describe HttpService, type: :service do
       
       it 'will return an method not supported error' do
         # Check that it will raise a MethodNotSupported error
-        expect { described_class.send(:make_request, url: url, method: method, options: options) }.to raise_error do |err|
-          expect(err).to be_a(MethodNotSupportedError)
+        expect { described_class.send(:send_request, url: url, method: method, options: options) }.to raise_error do |err|
+          expect(err).to be_a(Util::Http::MethodNotSupportedError)
         end
       end
     end
