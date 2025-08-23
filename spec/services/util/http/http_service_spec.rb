@@ -13,8 +13,8 @@ RSpec.describe Util::Http::HttpService, type: :service do
   describe '.method_supported?' do
     context 'when the method is supported' do
       # List through valid methods and check that they pass method_supported?
-      Util::Http::HttpService::RequestMethods.constants.each do |const|
-        method = Util::Http::HttpService::RequestMethods.const_get(const)
+      described_class::RequestMethods.constants.each do |const|
+        method = described_class::RequestMethods.const_get(const)
         it "returns true for #{method.upcase} requests" do
           expect(described_class.send(:method_supported?, method)).to be_truthy
         end
@@ -32,7 +32,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
   describe '.log_request' do
     # Mock request arguments
     let(:url) { "https://api.example.com" }
-    let(:method) { Util::Http::HttpService::RequestMethods::POST }
+    let(:method) { described_class::RequestMethods::POST }
     let(:time) { DateTime.new(2024, 10, 15, 12, 30) }
 
     context 'when all parameters are provided' do
@@ -124,7 +124,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
         'Request',
         uri: 'http://test.com',
         last_uri: 'http://test.com/last',
-        http_method: Util::Http::HttpService::RequestMethods::GET
+        http_method: described_class::RequestMethods::GET
       )
     end
 
@@ -191,7 +191,7 @@ RSpec.describe Util::Http::HttpService, type: :service do
     # Mock arguments
     let(:url) { 'http://example.com/api' }
     let(:bad_url) { 'http://some_bad_url.net]]' }
-    let(:method) { Util::Http::HttpService::RequestMethods::GET }
+    let(:method) { described_class::RequestMethods::GET }
     let(:options) { { headers: { 'Content-Type' => 'application/json' } } }
     let(:mock_response) { double('Response', code: 200, message: 'OK', body: '{"data": "value"}') }
 
