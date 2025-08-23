@@ -9,6 +9,7 @@ faster subsequent requests.
 - Input full address (street, city, state, zip) and get a weather forecast.
 - Fetches weather forecast from the National Weather Service API.
 - Caches forecast data in Redis for 30 minutes to improve performance.
+- Displays the timestamp indicating when the forecast data was cached.
 - Responsive, user-friendly HTML forms with client-side validation for ZIP codes.
 - Supports both HTML and JSON responses.
 
@@ -60,10 +61,9 @@ rails server
 
 ## Usage
 1. Enter your full address, or just a ZIP code as that is all that is required, in the form.
-
 2. Click Get Forecast to retrieve the weather forecast.
-
 3. The forecast will be cached for 30 minutes for the same ZIP code.
+4. When the forecast is displayed, the page also shows the timestamp of when the data was cached.
 
 ## Directory Structure Highlights
 app/assets/stylesheets — CSS for styling forms and forecast display.
