@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Forecast</title>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/assets/forecast.css">
 </head>
 <body>
@@ -15,33 +12,95 @@
 
 <main>
   <% if @forecast.present? %>
-    <div class="container">
-      <% @forecast.each do |period| %>
-        <div class="card">
-          <h2><%= period["name"] %></h2>
-          <p><strong>Time:</strong>
-            <%= period["startTime"].to_time.strftime("%b %d, %I:%M %p") %> -
-            <%= period["endTime"].to_time.strftime("%I:%M %p") %>
-          </p>
+    <h1>Weather Forecast</h1>
 
-          <div class="main">
-            <div class="icon">
-              <img src="<%= period["icon"] %>" alt="<%= period["shortForecast"] %> icon" />
-            </div>
-            <div class="details">
-              <p><strong>Temperature:</strong> <%= period["temperature"] %>°<%= period["temperatureUnit"] %></p>
-              <p><strong>Precipitation:</strong> <%= period["probabilityOfPrecipitation"]["value"] %> %</p>
-              <p><strong>Wind:</strong> <%= period["windSpeed"] %> <%= period["windDirection"] %></p>
-              <p><strong>Short Forecast:</strong> <%= period["shortForecast"] %></p>
-              <p><strong>Details:</strong> <%= period["detailedForecast"] %></p>
-            </div>
+    <div id="daily-overview">
+      <% # Sort days by date so the earliest comes first %>
+      <% sorted_days = @forecast.sort_by { |date, _| date } %>
+
+      <% sorted_days.each do |date, data| %>
+        <div class="day-card" data-date="<%= date %>">
+          <div class="day-title"><%= date.strftime("%A, %b %d, %Y") %></div>
+          <div>
+            High: <%= data[:periods].select { |p| p["isDaytime"] }.map { |p| p["temperature"] }.max %>°F,
+            Low: <%= data[:periods].reject { |p| p["isDaytime"] }.map { |p| p["temperature"] }.min %>°F
+          </div>
+          <div>Precipitation Chance: <%= data[:precipitation_pct] %>%</div>
+          <div class="forecast-summary">
+            <% data[:forecast].each do |condition, count| %>
+              <div><%= condition %> (<%= count %>)</div>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
-  <% else %>
+
+    <hr>
+
+    <h2>Hourly Forecast: <span id="selected-day-label"></span></h2>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Time</th>
+        <th>Temp (°F)</th>
+        <th>Humidity (%)</th>
+        <th>Wind</th>
+        <th>Forecast</th>
+        <th>Icon</th>
+      </tr>
+      </thead>
+      <tbody id="hourly-data">
+      <!-- Populated dynamically -->
+      </tbody>
+    </table>
+
+    <script>
+        const daysData = <%= raw(@forecast.to_json) %>;
+        const sortedDates = Object.keys(daysData).sort();
+        const hourlyTable = document.getElementById("hourly-data");
+        const dayLabel = document.getElementById("selected-day-label");
+        let selectedCard = null;
+
+        function renderHourly(date) {
+            const day = daysData[date];
+            dayLabel.textContent = new Date(date).toDateString();
+
+            hourlyTable.innerHTML = "";
+
+            day.periods.forEach(period => {
+                const tr = document.createElement("tr");
+                const time = new Date(period.startTime);
+                tr.innerHTML = `
+        <td>${time.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}</td>
+        <td>${period.temperature}</td>
+        <td>${period.relativeHumidity.value}</td>
+        <td>${period.windDirection} ${period.windSpeed}</td>
+        <td>${period.shortForecast}</td>
+        <td><img src="${period.icon}" alt="${period.shortForecast}"></td>
+      `;
+                hourlyTable.appendChild(tr);
+            });
+        }
+
+        // Default to earliest day
+        const defaultDate = sortedDates[0];
+        renderHourly(defaultDate);
+        selectedCard = document.querySelector(`.day-card[data-date='${defaultDate}']`);
+        selectedCard.classList.add("selected-day");
+
+        // Click handlers
+        document.querySelectorAll(".day-card").forEach(card => {
+            card.addEventListener("click", () => {
+                if (selectedCard) selectedCard.classList.remove("selected-day");
+                selectedCard = card;
+                card.classList.add("selected-day");
+                renderHourly(card.dataset.date);
+            });
+        });
+    </script>
+<% else %>
     <p>No forecast data available.</p>
   <% end %>
 </main>
 </body>
-</html>
