@@ -90,11 +90,16 @@ class WeatherController < ApplicationController
       
       # Determine the forecast for this time period
       forecast = period['shortForecast']
+      # Retrieve the currently stored object for this specific forecast
+      current_data = forecast_data[date][:forecast][forecast]
+      # Setup initial forecast object containing a counter and a display icon
+      current_data = { count: 0, icon: period['icon'] } if current_data.nil?
       # Increment the count of how many times the forecast for this time period has occurred
-      if forecast_data[date][:forecast][forecast].nil?
-        forecast_data[date][:forecast][forecast] = { count: 0, icon: period['icon'] }
-      end
-      forecast_data[date][:forecast][forecast][:count] += 1
+      current_data[:count] += 1
+      # Update the icon to a daytime icon
+      current_data[:icon] = period['icon'] if period['isDaytime']
+      # Replace current forecast object with the updated object
+      forecast_data[date][:forecast][forecast] = current_data
       
       # Determine the humidity for this time period
       humidity = period['relativeHumidity']['value']
