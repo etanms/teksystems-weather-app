@@ -9,13 +9,18 @@ module Weather
     
     # Module containing a list of constants, each representing a supported endpoint.
     module Endpoints
-      GET_FORECAST      = 'get_forecast'
-      GET_LOCATION_DATA = 'get_location_data'
+      GET_FORECAST        = 'get_forecast'
+      GET_HOURLY_FORECAST = 'get_hourly_forecast'
+      GET_LOCATION_DATA   = 'get_location_data'
     end
     
     class << self
       def get_forecast(args)
         { path: "/gridpoints/#{args[:grid_id]}/#{args[:x]},#{args[:y]}/forecast" }
+      end
+      
+      def get_hourly_forecast(args)
+        { path: "/gridpoints/#{args[:grid_id]}/#{args[:x]},#{args[:y]}/forecast/hourly" }
       end
       
       def get_location_data(args)

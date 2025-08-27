@@ -10,12 +10,12 @@ module Weather
       # Use the retrieved data to retrieve the forecast for this location
       location_args = { grid_id: properties['gridId'], x: properties['gridX'], y: properties['gridY'] }
       response      = NationalWeatherService.send_request(
-                        NationalWeatherService::Endpoints::GET_FORECAST,
+                        NationalWeatherService::Endpoints::GET_HOURLY_FORECAST,
                         location_args
                       )
       
       # Return forecast data
-      response.body.as_hash['properties']['periods']
+      response.body.as_hash
     end
   end
 end

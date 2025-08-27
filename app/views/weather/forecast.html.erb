@@ -12,95 +12,81 @@
 
 <main>
   <% if @forecast.present? %>
-    <h1>Weather Forecast</h1>
-
-    <div id="daily-overview">
-      <% # Sort days by date so the earliest comes first %>
+    <div class="forecast">
       <% sorted_days = @forecast.sort_by { |date, _| date } %>
 
       <% sorted_days.each do |date, data| %>
-        <div class="day-card" data-date="<%= date %>">
-          <div class="day-title"><%= date.strftime("%A, %b %d, %Y") %></div>
-          <div>
-            High: <%= data[:periods].select { |p| p["isDaytime"] }.map { |p| p["temperature"] }.max %>°F,
-            Low: <%= data[:periods].reject { |p| p["isDaytime"] }.map { |p| p["temperature"] }.min %>°F
+        <div class="card" data-date="<%= date %>">
+          <!-- Always visible summary -->
+          <div class="day-summary">
+            <div class="title"><%= date.strftime("%A, %b %d, %Y") %></div>
+            <div>
+              Average: <%= (data[:temperature_sum] / data[:num_periods]).round(1) %>°F,
+              High: <%= data[:high] %>°F,
+              Low: <%= data[:low] %>°F
+            </div>
+            <div>Average Humidity: <%= (data[:humidity_sum].to_f / data[:num_periods]).round(1) %>%</div>
+            <div>Precipitation Chance: <%= (data[:precipitation_pct].to_f / data[:num_periods]).round(1) %>%</div>
+            <div class="forecast-summary">
+              <% if data[:forecast].present? %>
+                <% condition, details = data[:forecast].max_by { |_, v| v[:count] } %>
+                <div>
+                  <img src="<%= details[:icon] %>" alt="<%= condition %> icon">
+                  <%= condition %>
+                </div>
+              <% end %>
+            </div>
           </div>
-          <div>Precipitation Chance: <%= data[:precipitation_pct] %>%</div>
-          <div class="forecast-summary">
-            <% data[:forecast].each do |condition, count| %>
-              <div><%= condition %> (<%= count %>)</div>
+
+          <!-- Expandable hourly section -->
+          <div class="hourly-forecast <%= 'expanded' if date == Date.today %>">
+            <% if data[:periods].present? %>
+              <table>
+                <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Temp (°F)</th>
+                  <th>Humidity (%)</th>
+                  <th>Wind</th>
+                  <th>Forecast</th>
+                  <th>Icon</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% data[:periods].each do |period| %>
+                  <tr>
+                    <% time = Time.parse(period['startTime']).localtime rescue nil %>
+                    <td><%= time&.strftime("%-I:%M %p") %></td>
+                    <td><%= period['temperature'] %></td>
+                    <td><%= period['relativeHumidity']&.send(:[], 'value') || 'N/A' %></td>
+                    <td><%= period['windDirection'] %> <%= period['windSpeed'] %></td>
+                    <td><%= period['shortForecast'] %></td>
+                    <td><img src="<%= period['icon'] %>" alt="<%= period['shortForecast'] %>"></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <div>No hourly data available</div>
             <% end %>
           </div>
         </div>
       <% end %>
     </div>
-
-    <hr>
-
-    <h2>Hourly Forecast: <span id="selected-day-label"></span></h2>
-
-    <table>
-      <thead>
-      <tr>
-        <th>Time</th>
-        <th>Temp (°F)</th>
-        <th>Humidity (%)</th>
-        <th>Wind</th>
-        <th>Forecast</th>
-        <th>Icon</th>
-      </tr>
-      </thead>
-      <tbody id="hourly-data">
-      <!-- Populated dynamically -->
-      </tbody>
-    </table>
-
-    <script>
-        const daysData = <%= raw(@forecast.to_json) %>;
-        const sortedDates = Object.keys(daysData).sort();
-        const hourlyTable = document.getElementById("hourly-data");
-        const dayLabel = document.getElementById("selected-day-label");
-        let selectedCard = null;
-
-        function renderHourly(date) {
-            const day = daysData[date];
-            dayLabel.textContent = new Date(date).toDateString();
-
-            hourlyTable.innerHTML = "";
-
-            day.periods.forEach(period => {
-                const tr = document.createElement("tr");
-                const time = new Date(period.startTime);
-                tr.innerHTML = `
-        <td>${time.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}</td>
-        <td>${period.temperature}</td>
-        <td>${period.relativeHumidity.value}</td>
-        <td>${period.windDirection} ${period.windSpeed}</td>
-        <td>${period.shortForecast}</td>
-        <td><img src="${period.icon}" alt="${period.shortForecast}"></td>
-      `;
-                hourlyTable.appendChild(tr);
-            });
-        }
-
-        // Default to earliest day
-        const defaultDate = sortedDates[0];
-        renderHourly(defaultDate);
-        selectedCard = document.querySelector(`.day-card[data-date='${defaultDate}']`);
-        selectedCard.classList.add("selected-day");
-
-        // Click handlers
-        document.querySelectorAll(".day-card").forEach(card => {
-            card.addEventListener("click", () => {
-                if (selectedCard) selectedCard.classList.remove("selected-day");
-                selectedCard = card;
-                card.classList.add("selected-day");
-                renderHourly(card.dataset.date);
-            });
-        });
-    </script>
-<% else %>
+  <% else %>
     <p>No forecast data available.</p>
   <% end %>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll(".day-summary").forEach(summary => {
+              summary.addEventListener("click", () => {
+                  const card = summary.closest(".card");
+                  const hourlySection = card.querySelector(".hourly-forecast");
+                  hourlySection.classList.toggle("expanded");
+              });
+          });
+      });
+  </script>
 </main>
 </body>
