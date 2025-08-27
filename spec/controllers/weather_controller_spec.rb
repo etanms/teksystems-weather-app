@@ -5,14 +5,23 @@ RSpec.describe WeatherController, type: :unit do
   let(:zip) { 90210 }
   let(:lat_lon) { { lat: 34.0901, lon: -118.4065 } }
   let(:forecast_data) do
-    [
-      {
-        "number" => 1,
-        "name" => "Today",
-        "temperature" => 92,
-        "shortForecast" => "Mostly Sunny"
+    {
+      "properties" => {
+        "periods" => [
+          {
+            "name"                       => "Today",
+            "number"                     => 1,
+            "probabilityOfPrecipitation" => { "value" => 2 },
+            "relativeHumidity"           => { "value" => 10 },
+            "shortForecast"              => "Mostly Sunny",
+            "startTime"                  => "2025-08-27T00:05:30.918Z",
+            "temperature"                => 92,
+            "windDirection"              => "N",
+            "windSpeed"                  => "4 mph"
+          }
+        ]
       }
-    ]
+    }
   end
   
   before do
@@ -29,7 +38,34 @@ RSpec.describe WeatherController, type: :unit do
       record = described_class.new.send(:get_forecast, zip)
       
       expect(record).to have_key(:forecast)
-      expect(record[:forecast]).to eq(forecast_data)
+      
+      expected_forecast = {
+        "2025-08-26".to_date => {
+          forecast:          { "Mostly Sunny" => {count: 1, icon: nil} },
+          high:              92,
+          humidity_sum:      10,
+          low:               92,
+          num_periods:       1,
+          periods:           [
+                               {
+                                 "name"                       => "Today",
+                                 "number"                     => 1,
+                                 "probabilityOfPrecipitation" => { "value" => 2 },
+                                 "relativeHumidity"           => { "value" => 10 },
+                                 "shortForecast"              => "Mostly Sunny",
+                                 "startTime"                  => "2025-08-27T00:05:30.918Z",
+                                 "temperature"                => 92,
+                                 "windDirection"              => "N",
+                                 "windSpeed"                  => "4 mph"
+                               }
+                             ],
+          precipitation_pct: 2,
+          temperature_sum:   92,
+          wind_direction:    { "N" => 1 },
+          wind_speed_sum:    4
+        }
+      }
+      expect(record[:forecast]).to eq(expected_forecast)
       
       expect(record).to have_key(:cached_at)
       expect(record[:cached_at]).to be_a(DateTime)

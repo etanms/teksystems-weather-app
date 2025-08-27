@@ -15,9 +15,9 @@ RSpec.describe Util::ApiService do
     class << self
       def test_endpoint(args)
         {
-          path: "/foo",
+          body:  args[:body],
           query: { bar: args[:bar] },
-          body:  args[:body]
+          path: "/foo"
         }
       end
     end

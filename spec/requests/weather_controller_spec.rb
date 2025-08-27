@@ -5,8 +5,8 @@ RSpec.describe "Weather requests", type: :request do
   let(:zip) { 90210 }
   let(:forecast_data) do
     [
-      { "number" => 1, "name" => "Today", "temperature" => 92, "shortForecast" => "Sunny" },
-      { "number" => 2, "name" => "Tonight", "temperature" => 60, "shortForecast" => "Clear" }
+      { "name" => "Today",   "number" => 1, "shortForecast" => "Sunny", "temperature" => 92 },
+      { "name" => "Tonight", "number" => 2, "shortForecast" => "Clear", "temperature" => 60 }
     ]
   end
   let(:record) { { cached_at: DateTime.now, forecast: forecast_data } }

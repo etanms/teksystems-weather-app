@@ -21,8 +21,8 @@ RSpec.describe Weather::WeatherService do
     end
     
     # Mock HTTParty responses
-    let(:location_response) { double("HTTParty::Response", body: location_response_body) }
-    let(:forecast_response) { double("HTTParty::Response", body: forecast_response_body) }
+    let(:location_response) { instance_double("HTTParty::Response", body: location_response_body) }
+    let(:forecast_response) { instance_double("HTTParty::Response", body: forecast_response_body) }
     
     before do
       # Stub the NationalWeatherService calls
@@ -32,7 +32,7 @@ RSpec.describe Weather::WeatherService do
       
       allow(Weather::NationalWeatherService).to receive(:send_request)
                                                   .with(
-                                                    Weather::NationalWeatherService::Endpoints::GET_FORECAST,
+                                                    Weather::NationalWeatherService::Endpoints::GET_HOURLY_FORECAST,
                                                     { grid_id: "MTR", x: 103, y: 81 }
                                                   )
                                                   .and_return(forecast_response)
@@ -46,7 +46,7 @@ RSpec.describe Weather::WeatherService do
       
       expect(Weather::NationalWeatherService).to have_received(:send_request)
                                                    .with(
-                                                     Weather::NationalWeatherService::Endpoints::GET_FORECAST,
+                                                     Weather::NationalWeatherService::Endpoints::GET_HOURLY_FORECAST,
                                                      { grid_id: "MTR", x: 103, y: 81 }
                                                    )
     end
@@ -54,10 +54,10 @@ RSpec.describe Weather::WeatherService do
     it "returns the periods array from the forecast response" do
       result = Weather::WeatherService.get_forecast(args)
       
-      expect(result).to eq([
-                             { "name" => "Today", "temperature" => 75 },
-                             { "name" => "Tonight", "temperature" => 60 }
-                           ])
+      expect(result["properties"]["periods"]).to eq([
+                                                      { "name" => "Today", "temperature" => 75 },
+                                                      { "name" => "Tonight", "temperature" => 60 }
+                                                    ])
     end
   end
 end
